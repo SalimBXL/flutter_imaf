@@ -76,11 +76,9 @@ class _HomeState extends State<Home> {
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       leading: Icon(Icons.person),
-                      trailing: Text(
-                        widget.friendships
-                            .friendActivities(index: index)
-                            .toString(),
-                      ),
+                      subtitle: activitiesIcons(
+                          activities: widget.friendships
+                              .friendActivities(index: index)),
                       title: Text(
                         widget.friendships.friendName(index: index),
                       ),
@@ -98,6 +96,29 @@ class _HomeState extends State<Home> {
         tooltip: 'Refresh',
         child: Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Widget activitiesIcons({List activities}) {
+    activities.sort();
+    List<Widget> iconList = [];
+    activities.forEach((code) {
+      print("ACTIVITY : $code");
+      if (code == "DRINK") iconList.add(Icon(Icons.fastfood));
+      if (code == "SPORT") iconList.add(Icon(Icons.sports_tennis));
+      if (code == "FUN") iconList.add(Icon(Icons.thermostat_rounded));
+
+      for (int i = 0; i < iconList.length; i++) {
+        iconList[i] = Padding(
+          padding: const EdgeInsets.only(
+              left: 10.0, right: 10.0, top: 0.0, bottom: 0.0),
+          child: iconList[i],
+        );
+      }
+    });
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: iconList,
     );
   }
 }
