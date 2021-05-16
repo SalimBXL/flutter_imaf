@@ -14,9 +14,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String _lastRefresh() {
-    return "${(DateTime.now().hour) < 10 ? "0" : ""}${DateTime.now().hour}"
-        ":${(DateTime.now().minute) < 10 ? "0" : ""}${DateTime.now().minute}";
+  String _lastRefresh;
+
+  @override
+  void initState() {
+    super.initState();
+    updateUI();
+  }
+
+  void updateUI() {
+    setState(() {
+      _lastRefresh =
+          "${(DateTime.now().hour) < 10 ? "0" : ""}${DateTime.now().hour}"
+          ":${(DateTime.now().minute) < 10 ? "0" : ""}${DateTime.now().minute}";
+    });
   }
 
   @override
@@ -51,7 +62,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Text(
-                  "(Last refresh : ${_lastRefresh()})",
+                  "(Last refresh : $_lastRefresh)",
                   style: TextStyle(
                     fontSize: 12.0,
                     fontStyle: FontStyle.italic,
@@ -80,7 +91,10 @@ class _HomeState extends State<Home> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          await widget.friendships.getData();
+          updateUI();
+        },
         tooltip: 'Refresh',
         child: Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
