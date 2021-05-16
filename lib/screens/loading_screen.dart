@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_imaf/screens/home.dart';
-import 'package:flutter_imaf/services/networking.dart';
+import 'package:flutter_imaf/services/friendship.dart';
+import 'package:flutter_imaf/services/user.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -11,24 +12,28 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
   List<dynamic> friends;
 
-  void getFriends() async {
-    String address = "http://192.168.1.17:3000";
-    int userId = 1;
-    String url = "$address/users/$userId/friendships";
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
-    NetworkHelper networkHelper = NetworkHelper(url);
-    var friends = await networkHelper.getData();
+  void getData() async {
+    UserModel user = UserModel();
+    await user.getData();
+    FriendshipModel friendship = FriendshipModel();
+    await friendship.getData();
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return Home(
-        friends: friends,
+        user: user,
+        friendships: friendship,
       );
     }));
   }
 
   @override
   Widget build(BuildContext context) {
-    getFriends();
     return Scaffold(
       body: Center(
         child: Column(
