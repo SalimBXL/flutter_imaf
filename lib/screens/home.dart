@@ -10,11 +10,22 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String _lastRefresh =
+      "${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}";
+
+  @override
+  void initState() {
+    super.initState();
+    print("***************");
+    print(widget.friends);
+    print("***************");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(""),
+        title: Text("I Am Available For..."),
       ),
       body: Center(
         child: Column(
@@ -22,7 +33,7 @@ class _HomeState extends State<Home> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Text(
-              "Users",
+              "Friend List",
             ),
             Expanded(
               child: ListView.builder(
@@ -30,12 +41,14 @@ class _HomeState extends State<Home> {
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       leading: Icon(Icons.person),
-                      trailing: Text(widget.friends[index]["activities"]),
-                      title:
-                          Text(widget.friends[index]["friend_id"].toString()),
+                      trailing: Text(
+                          widget.friends[index]["activities_list"].toString()),
+                      title: Text(widget.friends[index]["friend"]["username"]
+                          .toString()),
                     );
                   }),
             ),
+            Text("Last refresh : $_lastRefresh"),
           ],
         ),
       ),

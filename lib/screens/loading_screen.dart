@@ -11,15 +11,10 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
   List<dynamic> friends;
 
-  @override
-  void iniState() {
-    super.initState();
-  }
-
   void getFriends() async {
     String address = "http://192.168.1.17:3000";
     int userId = 1;
-    String url = "$address/users/$userId/friends";
+    String url = "$address/users/$userId/friendships";
 
     NetworkHelper networkHelper = NetworkHelper(url);
     var friends = await networkHelper.getData();
@@ -36,9 +31,16 @@ class _LoadingScreenState extends State<LoadingScreen> {
     getFriends();
     return Scaffold(
       body: Center(
-        child: SpinKitCircle(
-          color: Colors.blueGrey,
-          size: 100.0,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SpinKitCircle(
+              color: Colors.blueGrey,
+              size: 100.0,
+            ),
+            Text("Retrieving friendlist..."),
+          ],
         ),
       ),
     );
