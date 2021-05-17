@@ -14,6 +14,10 @@ class FriendshipModel {
     return _apiDatas[index]["friend"]["username"] ?? "- - -";
   }
 
+  String friendEmail({int index}) {
+    return _apiDatas[index]["friend"]["email"] ?? "- - -";
+  }
+
   List friendActivities({int index}) {
     return _apiDatas[index]["activities_list"] ?? "- - -";
   }
