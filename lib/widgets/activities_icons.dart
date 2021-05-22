@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_imaf/services/consts.dart';
 
-enum Status { DRINK, SPORT, FUN, FOOD, MOVIE }
 Map<Status, IconData> iconStatus = {
   Status.DRINK: Icons.emoji_food_beverage,
   Status.FOOD: Icons.restaurant,
@@ -9,8 +9,7 @@ Map<Status, IconData> iconStatus = {
   Status.MOVIE: Icons.local_movies
 };
 
-// ignore: non_constant_identifier_names
-Widget ActivitiesIcons({List activities, double icoSize = 24.0}) {
+Widget activitiesIcons({required List activities, double icoSize = 24.0}) {
   activities.sort();
   List<Widget> iconList = [];
   Color icoColor = Colors.grey.shade400;

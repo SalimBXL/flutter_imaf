@@ -1,22 +1,23 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_imaf/screens/friendship.dart';
-import 'package:flutter_imaf/services/friendship.dart';
-import 'package:flutter_imaf/services/user.dart';
+import 'package:flutter_imaf/models/friendship.dart';
+import 'package:flutter_imaf/models/user.dart';
+import 'package:flutter_imaf/services/consts.dart';
 import 'package:flutter_imaf/widgets/activities_icons.dart';
+import 'package:flutter_imaf/widgets/logged_user_pan.dart';
 
 class Home extends StatefulWidget {
-  Home({this.user, this.friendships});
+  Home({required this.user, required this.friendships});
 
-  final UserModel user;
-  final FriendshipModel friendships;
+  final User user;
+  final List<Friendship> friendships;
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  String _lastRefresh;
+  late String _lastRefresh;
 
   @override
   void initState() {
@@ -37,11 +38,11 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         leading: Icon(Icons.local_activity),
-        backgroundColor: Colors.black54,
+        backgroundColor: BLACK54,
         title: Text(
           "I Am Available For...",
           style: TextStyle(
-            color: Colors.white54,
+            color: WHITE54,
           ),
         ),
       ),
@@ -53,7 +54,7 @@ class _HomeState extends State<Home> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              loggedUserPan(),
+              loggedUserPan(user: widget.user),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,7 +64,7 @@ class _HomeState extends State<Home> {
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black54,
+                      color: BLACK54,
                     ),
                   ),
                   Text(
@@ -71,33 +72,33 @@ class _HomeState extends State<Home> {
                     style: TextStyle(
                       fontSize: 12.0,
                       fontStyle: FontStyle.italic,
-                      color: Colors.black54,
+                      color: BLACK54,
                     ),
                   ),
                 ],
               ),
               Expanded(
                 child: ListView.builder(
-                    itemCount: widget.friendships.numberOfFriends(),
+                    itemCount: widget.friendships.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
-                        leading: roundButton(friendIndex: index),
+                        //leading: roundButton(friendIndex: index),
                         trailing: Text("xx:xx"),
                         title: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              widget.friendships.friendName(index: index),
+                              widget.friendships[index].friend.username,
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18.0,
-                                color: Colors.black54,
+                                color: BLACK54,
                               ),
                             ),
-                            ActivitiesIcons(
-                                activities: widget.friendships
-                                    .friendActivities(index: index)),
+                            activitiesIcons(
+                                activities:
+                                    widget.friendships[index].activities),
                           ],
                         ),
                       );
@@ -108,57 +109,39 @@ class _HomeState extends State<Home> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.amberAccent,
-        onPressed: () async {
-          await widget.friendships.getData();
+        backgroundColor: AMBER_ACCENT,
+        onPressed: () {
           updateUI();
         },
         tooltip: 'Refresh',
         child: Icon(
           Icons.refresh,
-          color: Colors.black54,
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-
-  Widget loggedUserPan() {
-    return Container(
-      color: Colors.black54,
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Text(
-          widget.user.userName(),
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 36.0,
-            color: Colors.white54,
-          ),
-          textAlign: TextAlign.center,
+          color: BLACK54,
         ),
       ),
     );
   }
 
-  Widget roundButton({int friendIndex}) {
-    return Container(
-      color: Colors.black54,
-      child: IconButton(
-          color: Colors.black54,
-          splashColor: Colors.amberAccent,
-          iconSize: 36,
-          icon: Icon(
-            Icons.person,
-            color: Colors.white54,
-          ),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return Friendship(
-                friendIndex: friendIndex,
-                friendshipModel: widget.friendships,
-              );
-            }));
-          }),
-    );
-  }
+  // Widget roundButton({int friendIndex}) {
+  //   return Container(
+  //     color: Colors.black54,
+  //     child: IconButton(
+  //         color: Colors.black54,
+  //         splashColor: Colors.amberAccent,
+  //         iconSize: 36,
+  //         icon: Icon(
+  //           Icons.person,
+  //           color: Colors.white54,
+  //         ),
+  //         onPressed: () {
+  //           Navigator.push(context, MaterialPageRoute(builder: (context) {
+  //             return Friendship(
+  //               friendIndex: friendIndex,
+  //               friendshipModel: widget.friendships,
+  //             );
+  //           }));
+  //         }),
+  //   );
+  // }
+
 }
