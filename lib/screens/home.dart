@@ -7,10 +7,15 @@ import 'package:flutter_imaf/widgets/activities_icons.dart';
 import 'package:flutter_imaf/widgets/logged_user_pan.dart';
 
 class Home extends StatefulWidget {
-  Home({required this.user, required this.friendships});
+  Home({
+    required this.user,
+    required this.friendships,
+    required this.activities,
+  });
 
   final User user;
   final List<Friendship> friendships;
+  final List<String> activities;
 
   @override
   _HomeState createState() => _HomeState();
@@ -47,14 +52,14 @@ class _HomeState extends State<Home> {
         ),
       ),
       body: Container(
-        color: Colors.grey.shade200,
+        color: FADE,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              loggedUserPan(user: widget.user),
+              loggedUserPan(user: widget.user, activities: widget.activities),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,7 +88,12 @@ class _HomeState extends State<Home> {
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
                         //leading: roundButton(friendIndex: index),
-                        trailing: Text("xx:xx"),
+                        trailing: Text(
+                          "xx:xx",
+                          style: TextStyle(
+                            color: GREY_ACCENT,
+                          ),
+                        ),
                         title: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,7 +103,7 @@ class _HomeState extends State<Home> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18.0,
-                                color: BLACK54,
+                                color: GREY_ACCENT,
                               ),
                             ),
                             activitiesIcons(
@@ -116,7 +126,7 @@ class _HomeState extends State<Home> {
         tooltip: 'Refresh',
         child: Icon(
           Icons.refresh,
-          color: BLACK54,
+          color: GREY_ACCENT,
         ),
       ),
     );

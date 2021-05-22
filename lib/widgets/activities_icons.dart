@@ -9,14 +9,20 @@ Map<Status, IconData> iconStatus = {
   Status.MOVIE: Icons.local_movies
 };
 
-Widget activitiesIcons({required List activities, double icoSize = 24.0}) {
+Widget activitiesIcons({
+  required List activities,
+  double icoSize = 24.0,
+  bool invertColors = false,
+}) {
   activities.sort();
   List<Widget> iconList = [];
-  Color icoColor = Colors.grey.shade400;
+  Color color1 = invertColors ? AMBER_ACCENT : GREY_ACCENT;
+  Color color2 = invertColors ? BLACK54 : FADE;
 
   iconStatus.forEach((key, value) {
     String keyFormatted = key.toString().split(".").last;
-    if (activities.contains(keyFormatted)) icoColor = Colors.black54;
+    Color icoColor = (activities.contains(keyFormatted)) ? color1 : color2;
+
     iconList.add(
       Padding(
         padding:

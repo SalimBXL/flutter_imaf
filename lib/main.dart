@@ -1,20 +1,12 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter_imaf/models/data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_imaf/screens/home.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_imaf/services/networking.dart';
+import 'package:flutter_imaf/widgets/error_message.dart';
+import 'package:flutter_imaf/widgets/progress_indicator.dart';
+import 'package:flutter_imaf/widgets/show_button.dart';
 
-Future<Data> fetchData({required int userId}) async {
-  final response = await http
-      .get(Uri.http('192.168.1.17:3000', 'users/$userId/friendships'));
-  if (response.statusCode == 200) {
-    Data _data = Data.fromJson(jsonDecode(response.body));
-    return _data;
-  } else {
-    throw Exception('Failed to load friendship');
-  }
-}
+import 'services/consts.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,11 +19,16 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late Future<Data> futureData;
+  late Networking networking;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData(userId: 1);
+    networking = Networking(
+      userId: 1,
+      apiAddress: "192.168.1.17:3000",
+    );
+    futureData = networking.fetchData();
   }
 
   @override
@@ -39,41 +36,33 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Fetch Data Example',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.grey,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Fetch Data Example'),
+          leading: Icon(Icons.local_activity),
+          backgroundColor: BLACK54,
+          title: Text(
+            "I Am Available For...",
+            style: TextStyle(
+              color: WHITE54,
+            ),
+          ),
         ),
-        body: Center(
-          child: FutureBuilder<Data>(
-              future: futureData,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ElevatedButton(
-                    child: Text("SHOW"),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return Home(
-                            user: snapshot.data!.user,
-                            friendships: snapshot.data!.friendships,
-                          );
-                        },
-                      ));
-                    },
-                  );
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-                // By default, show a loading spinner.
-                return Column(
-                  children: [
-                    Text("Loading"),
-                    CircularProgressIndicator(),
-                  ],
-                );
-              }),
+        body: Container(
+          color: FADE,
+          child: Center(
+            child: FutureBuilder<Data>(
+                future: futureData,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return showButton(context: context, snapshot: snapshot);
+                  } else if (snapshot.hasError) {
+                    return errorMessage(snapshot: snapshot);
+                  }
+                  return progressIndicator();
+                }),
+          ),
         ),
       ),
     );

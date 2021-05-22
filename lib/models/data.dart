@@ -4,10 +4,12 @@ import 'package:flutter_imaf/models/user.dart';
 class Data {
   final User user;
   final List<Friendship> friendships;
+  final List<String> activities;
 
   Data({
     required this.user,
     required this.friendships,
+    required this.activities,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class Data {
     Data _data = Data(
       user: User.fromJson(json['user']),
       friendships: _friendships,
+      activities: List.from(json['activities']),
     );
     return _data;
   }
