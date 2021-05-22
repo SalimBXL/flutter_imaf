@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_imaf/models/friendship.dart';
 import 'package:flutter_imaf/models/user.dart';
 import 'package:flutter_imaf/services/consts.dart';
-import 'package:flutter_imaf/widgets/activities_icons.dart';
 import 'package:flutter_imaf/widgets/logged_user_pan.dart';
+import 'package:flutter_imaf/widgets/list_tile.dart';
 
 class Home extends StatefulWidget {
   Home({
@@ -86,32 +86,7 @@ class _HomeState extends State<Home> {
                 child: ListView.builder(
                     itemCount: widget.friendships.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        //leading: roundButton(friendIndex: index),
-                        trailing: Text(
-                          "xx:xx",
-                          style: TextStyle(
-                            color: GREY_ACCENT,
-                          ),
-                        ),
-                        title: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              widget.friendships[index].friend.username,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18.0,
-                                color: GREY_ACCENT,
-                              ),
-                            ),
-                            activitiesIcons(
-                                activities:
-                                    widget.friendships[index].activities),
-                          ],
-                        ),
-                      );
+                      return listTile(friendship: widget.friendships[index]);
                     }),
               ),
             ],
