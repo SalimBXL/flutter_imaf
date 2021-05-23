@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_imaf/models/data.dart';
@@ -17,12 +19,22 @@ class Networking {
   Future<Data> fetchData() async {
     String _address = 'users/$userId';
     Uri _uri = Uri.http(apiAddress, _address);
-    final response = await http.get(_uri);
-
-    if (response.statusCode == 200) {
-      return Data.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to load friendship');
+    try {
+      final response = await http.get(_uri).timeout(
+        Duration(seconds: 10),
+        onTimeout: () {
+          throw TimeoutException(
+              'The connection has timed out, Please try again later.');
+        },
+      );
+      if (response.statusCode == 200) {
+        return Data.fromJson(jsonDecode(response.body));
+      } else {
+        throw Exception('Failed');
+      }
+    } on SocketException {
+      print("");
+      throw Exception('Failed');
     }
   }
 }
