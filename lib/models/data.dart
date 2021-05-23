@@ -3,27 +3,26 @@ import 'package:flutter_imaf/models/user.dart';
 
 class Data {
   final User user;
-  final List<Friendship> friendships;
-  final List<String> activities;
+  final List<Friendship> userFriendships;
+  final List<String> userActivities;
 
   Data({
     required this.user,
-    required this.friendships,
-    required this.activities,
+    required this.userFriendships,
+    required this.userActivities,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
     List<Friendship> _friendships = [];
     List<dynamic> _jsonFriendships = List.from(json['friendships']);
     _jsonFriendships.forEach((jsonFriendship) {
-      Friendship friendshipToAdd = Friendship.fromJson(jsonFriendship);
-      _friendships.add(friendshipToAdd);
+      _friendships.add(Friendship.fromJson(jsonFriendship));
     });
 
     Data _data = Data(
       user: User.fromJson(json['user']),
-      friendships: _friendships,
-      activities: List.from(json['activities']),
+      userFriendships: _friendships,
+      userActivities: List.from(json['activities']),
     );
     return _data;
   }

@@ -10,12 +10,12 @@ class Home extends StatefulWidget {
   Home({
     required this.user,
     required this.friendships,
-    required this.activities,
+    required this.userActivities,
   });
 
   final User user;
   final List<Friendship> friendships;
-  final List<String> activities;
+  final List<String> userActivities;
 
   @override
   _HomeState createState() => _HomeState();
@@ -59,7 +59,8 @@ class _HomeState extends State<Home> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              loggedUserPan(user: widget.user, activities: widget.activities),
+              loggedUserPan(
+                  user: widget.user, activities: widget.userActivities),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

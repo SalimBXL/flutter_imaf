@@ -8,8 +8,8 @@ void openMainScreen(
     builder: (context) {
       return Home(
         user: snapshot.data!.user,
-        friendships: snapshot.data!.friendships,
-        activities: snapshot.data!.activities,
+        friendships: snapshot.data!.userFriendships,
+        userActivities: snapshot.data!.userActivities,
       );
     },
   ));

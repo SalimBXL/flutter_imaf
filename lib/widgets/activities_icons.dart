@@ -23,20 +23,17 @@ Widget activitiesIcons({
   iconStatus.forEach((key, value) {
     String keyFormatted = key.toString().split(".").last;
     Color icoColor = (activities.contains(keyFormatted)) ? color1 : color2;
-    if (!showOnlyActives ||
-        (showOnlyActives && activities.contains(keyFormatted))) {
-      iconList.add(
-        Padding(
-          padding: const EdgeInsets.only(
-              left: 2.0, right: 2.0, top: 0.0, bottom: 0.0),
-          child: Icon(
-            value,
-            size: icoSize,
-            color: icoColor,
-          ),
+    iconList.add(
+      Padding(
+        padding:
+            const EdgeInsets.only(left: 2.0, right: 2.0, top: 0.0, bottom: 0.0),
+        child: Icon(
+          value,
+          size: icoSize,
+          color: icoColor,
         ),
-      );
-    }
+      ),
+    );
   });
 
   return Row(

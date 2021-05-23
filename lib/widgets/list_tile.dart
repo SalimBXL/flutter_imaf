@@ -3,25 +3,31 @@ import 'package:flutter_imaf/models/friendship.dart';
 import 'package:flutter_imaf/services/consts.dart';
 import 'package:flutter_imaf/widgets/activities_icons.dart';
 
-Widget trailing({required Friendship friendship}) {
+Widget friendActivities({required Friendship friendship}) {
   return Container(
     color: GREY_ACCENT,
     child: activitiesIcons(
-        activities: friendship.activities,
+        activities: friendship.friend.friendActivities,
         invertColors: true,
         showOnlyActives: true),
   );
 }
 
-Widget leading({required Friendship friendship}) {
-  return Text(
-    friendship.friend.username,
-    style: TextStyle(
-      fontWeight: FontWeight.w500,
-      fontSize: 18.0,
-      color: GREY_ACCENT,
+Widget friendName({required Friendship friendship}) {
+  return Expanded(
+    child: Text(
+      friendship.friend.username,
+      style: TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 18.0,
+        color: GREY_ACCENT,
+      ),
     ),
   );
+}
+
+Widget allowedActivitiesWithThisFriend({required Friendship friendship}) {
+  return activitiesIcons(activities: friendship.activities);
 }
 
 Widget listTile({required Friendship friendship}) {
@@ -31,13 +37,9 @@ Widget listTile({required Friendship friendship}) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.max,
       children: [
-        Expanded(
-          child: leading(friendship: friendship),
-        ),
-        Expanded(
-          child: trailing(friendship: friendship),
-        ),
-        activitiesIcons(activities: friendship.activities),
+        friendName(friendship: friendship),
+        friendActivities(friendship: friendship),
+        allowedActivitiesWithThisFriend(friendship: friendship),
       ],
     ),
   );
