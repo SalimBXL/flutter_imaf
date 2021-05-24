@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_imaf/screens/home.dart';
 import 'package:flutter_imaf/services/consts.dart';
 
-void openMainScreen(
-    {required BuildContext context, required AsyncSnapshot snapshot}) {
-  Navigator.push(context, MaterialPageRoute(
-    builder: (context) {
-      return Home(
-        user: snapshot.data!.user,
-        friendships: snapshot.data!.userFriendships,
-        userActivities: snapshot.data!.userActivities,
-      );
-    },
-  ));
-}
+// void openMainScreen(
+//     {required BuildContext context, required AsyncSnapshot snapshot}) {
+//   // Navigator.push(context, MaterialPageRoute(
+//   //   builder: (context) {
+//   //     return Home(
+//   //       user: snapshot.data!.user,
+//   //       friendships: snapshot.data!.userFriendships,
+//   //       userActivities: snapshot.data!.userActivities,
+//   //     );
+//     },
+//   ));
+// }
 
 Widget showButton({
   required BuildContext context,
@@ -28,7 +27,7 @@ Widget showButton({
       ),
     ),
     onPressed: () {
-      openMainScreen(context: context, snapshot: snapshot);
+      //openMainScreen(context: context, snapshot: snapshot);
     },
   );
 }

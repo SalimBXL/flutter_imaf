@@ -13,7 +13,7 @@ class Networking {
     required this.userId,
     required this.apiAddress,
   }) {
-    fetchData();
+    //fetchData();
   }
 
   Future<Data> fetchData() async {
